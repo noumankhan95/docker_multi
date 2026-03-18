@@ -31,16 +31,16 @@ jobs:
           docker push nouman95/nginx
           docker push nouman95/worker
 
-      - name: Generate deployment package
-        run: zip -r deploy.zip Dockerrun.aws.json
+    #   - name: Generate deployment package
+    #     run: zip -r deploy.zip Dockerrun.aws.json
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          application_name: your-app-name
-          environment_name: your-env-name
-          version_label: v-${{ github.sha }}
-          region: your-region
-          deployment_package: deploy.zip
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+    #   - name: Deploy to EB
+    #     uses: einaregilsson/beanstalk-deploy@v21
+    #     with:
+    #       application_name: your-app-name
+    #       environment_name: your-env-name
+    #       version_label: v-${{ github.sha }}
+    #       region: your-region
+    #       deployment_package: deploy.zip
+    #       aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+    #       aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
