@@ -66,7 +66,7 @@ app.get("/values/current", (req, res) => {
         // redisClient.hgetall("values", (err, values) => {
         //     res.send(values)
         // })
-        res.send(1)
+        res.send("1")
     } catch (e) {
         console.log(e)
         return res.send(e)
