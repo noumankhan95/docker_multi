@@ -48,7 +48,7 @@ function App() {
   const [hi, sethi] = useState("")
   async function fetch_hi() {
     try {
-      const res = await fetch("/");
+      const res = await fetch("/api/");
       const data = await res.json();
       sethi(data)
     } catch (err) {
