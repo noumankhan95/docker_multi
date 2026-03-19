@@ -1,0 +1,43 @@
+{
+    "AWSEBDockerrunVersion": "2",
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "nouman95/frontend",
+            "host": "client",
+            "essential": false,
+            "memory": 256
+        },
+        {
+            "name": "backend",
+            "image": "nouman95/backend",
+            "host": "backend",
+            "essential": false,
+            "memory": 256
+        },
+        {
+            "name": "nginx",
+            "image": "nouman95/nginx",
+            "host": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "client",
+                "backend"
+            ],
+            "memory": 256
+        },
+        {
+            "name": "worker",
+            "image": "nouman95/worker",
+            "host": "worker",
+            "essential": false,
+            "memory": 256
+        }
+    ]
+}
