@@ -15,7 +15,8 @@ services:
       - PGHOST=${PGHOST}
       - PGDATABASE=${PGDATABASE}
       - PGPORT=${PGPORT}
-
+    expose:
+      - 5000
   worker:
     image: nouman95/worker
     environment:
