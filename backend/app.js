@@ -55,6 +55,7 @@ app.get("/values/all", async (req, res) => {
         const values = await pgClient.query('SELECT * FROM "values"');
         return res.send(values.rows)
     } catch (e) {
+        console.log(e)
         return res.send(e)
     }
 
@@ -67,6 +68,7 @@ app.get("/values/current", (req, res) => {
         // })
         res.send(1)
     } catch (e) {
+        console.log(e)
         return res.send(e)
 
     }
@@ -83,6 +85,7 @@ app.post("/values", async (req, res) => {
         pgClient.query('INSERT INTO "values"(number) VALUES($1)', [index]);
         res.send({ working: true })
     } catch (e) {
+        console.log(e)
         return res.send(e)
 
     }
