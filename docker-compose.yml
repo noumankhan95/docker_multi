@@ -2,10 +2,9 @@ version: '3'
 
 services:
 
-  frontend:
+  client:
     image: nouman95/frontend
-    ports:
-      - "3000:3000"
+  
   backend:
     image: nouman95/backend
     environment:
