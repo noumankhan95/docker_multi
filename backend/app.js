@@ -58,6 +58,6 @@ app.post("/values", async (req, res) => {
     res.send({ working: true })
 })
 
-app.listen(5000, err => {
+app.listen(5000, "0.0.0.0", err => {
     console.log("LISTENING AT 5000")
 })
