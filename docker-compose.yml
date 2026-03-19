@@ -1,49 +1,31 @@
 version: '3'
 
 services:
-  postgres:
-    image: "postgres:latest"
-  redis:
-    image: "redis:latest"
 
-  nginx:
-    restart: "always"
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.dev
+  frontend:
+    image: nouman95/frontend
     ports:
-      - "4001:80"
-
+      - "3000:3000"
   backend:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./backend
-    volumes:
-        - /app/node_modules
-        - ./backend:/app
+    image: nouman95/backend
     environment:
-        - REDIS_HOST=redis
-        - REDIS_PORT=6379
-        - PGUSER=postgres
-        - PGHOST=postgres
-        - PGDATABASE=postgres
-        - PGPASSWORD=postgres_password
-        - PGPORT=5432
-  client:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGHOST=${PGHOST}
+      - PGDATABASE=${PGDATABASE}
+      - PGPORT=${PGPORT}
 
   worker:
-    build:
-      context: ./worker
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./worker:/worker
+    image: nouman95/worker
     environment:
-    - REDIS_HOST=redis
-    - REDIS_PORT=6379
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+
+  nginx:
+    image: nouman95/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
