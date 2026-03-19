@@ -45,11 +45,21 @@ function App() {
       console.error("Error submitting index:", err);
     }
   };
-
+  const [hi, sethi] = useState("")
+  async function fetch_hi() {
+    try {
+      const res = await fetch("/");
+      const data = await res.json();
+      sethi(data)
+    } catch (err) {
+      console.error("Error submitting index:", err);
+    }
+  }
   useEffect(() => {
     // Fetch data every 2 seconds
     fetchAllValues();
     fetchCurrentValues();
+    fetch_hi()
     const interval = setInterval(() => {
       fetchAllValues();
       fetchCurrentValues();
@@ -59,6 +69,7 @@ function App() {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      {hi && <h1>{hi}</h1>}
       <h1>Fibonacci Tester</h1>
       <input
         type="number"
