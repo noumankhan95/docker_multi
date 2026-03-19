@@ -19,30 +19,32 @@ const pgClient = new Pool({
     password: keys.pgPassword,
     port: keys.pgPort
 })
-
+pgClient.connect()
+    .then(() => console.log("Postgres Connected"))
+    .catch(err => console.error("PG Connection Error:", err));
 pgClient.on("error", () => console.log("LOST PG CONNECTION"))
 pgClient.query('CREATE TABLE IF NOT EXISTS "values"(number INT)').catch(err => console.log(err))
 
-const redis = require("redis");
+// const redis = require("redis");
 
-const redisClient = redis.createClient({
-    url: `redis://${keys.redisHost}:${keys.redisPort}`
-});
+// const redisClient = redis.createClient({
+//     url: `redis://${keys.redisHost}:${keys.redisPort}`
+// });
 
-redisClient.on("error", (err) => {
-    console.error("Redis error:", err);
-});
+// redisClient.on("error", (err) => {
+//     console.error("Redis error:", err);
+// });
 
-(async () => {
-    try {
-        await redisClient.connect();
-        console.log("Redis connected");
-    } catch (err) {
-        console.log("Redis failed, continuing without it");
-    }
-})();
+// (async () => {
+//     try {
+//         await redisClient.connect();
+//         console.log("Redis connected");
+//     } catch (err) {
+//         console.log("Redis failed, continuing without it");
+//     }
+// })();
 
-const redisPublisher = redisClient.duplicate();
+// const redisPublisher = redisClient.duplicate();
 
 app.get("/", (req, res) => {
     res.send("hi")
@@ -60,9 +62,10 @@ app.get("/values/all", async (req, res) => {
 
 app.get("/values/current", (req, res) => {
     try {
-        redisClient.hgetall("values", (err, values) => {
-            res.send(values)
-        })
+        // redisClient.hgetall("values", (err, values) => {
+        //     res.send(values)
+        // })
+        res.send(1)
     } catch (e) {
         return res.send(e)
 
@@ -75,8 +78,8 @@ app.post("/values", async (req, res) => {
         if (parseInt(index) > 30) {
             return res.status(422).send("Index too high")
         }
-        redisClient.hset("values", index, "Nothing Yet");
-        redisPublisher.publish("insert", index)
+        // redisClient.hset("values", index, "Nothing Yet");
+        // redisPublisher.publish("insert", index)
         pgClient.query('INSERT INTO "values"(number) VALUES($1)', [index]);
         res.send({ working: true })
     } catch (e) {
