@@ -30,7 +30,9 @@ const redisClient = redis.createClient({
     port: keys.redisPort,
     retry_strategy: () => 1000
 })
-
+redisClient.on("error", (err) => {
+    console.error("Redis error:", err);
+});
 const redisPublisher = redisClient.duplicate();
 
 app.get("/", (req, res) => {
