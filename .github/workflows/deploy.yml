@@ -40,7 +40,7 @@ jobs:
           application_name: docker multi
           environment_name: dockermulti-env
           version_label: v-${{ github.sha }}
-          region: your-region
+          region: us-east-1
           deployment_package: deploy.zip
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
